@@ -1,21 +1,41 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+    enum class Nivel { BASICO, INTERMEDIARIO, AVANCADO }
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+class Usuario(val nome: String)
 
-class Usuario
+data class ConteudoEducacional(val nome: String, val duracao: Int = 120)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+class Formacao(val nome: String) {
+    private val conteudos = mutableListOf<ConteudoEducacional>()
+    private val inscritos = mutableListOf<Usuario>()
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+    fun adicionarConteudo(conteudo: ConteudoEducacional) {
+        conteudos.add(conteudo)
+    }
 
-    val inscritos = mutableListOf<Usuario>()
-    
     fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+        if (usuario !in inscritos) {
+            inscritos.add(usuario)
+            println("Usuário ${usuario.nome} matriculado na formação $nome.")
+        } else {
+            println("Usuário ${usuario.nome} já está matriculado na formação $nome.")
+        }
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    val conteudo1 = ConteudoEducacional("Introdução à Programação", 90)
+    val conteudo2 = ConteudoEducacional("Estruturas de Dados", 120)
+    
+    val formacao = Formacao("Ciência da Computação")
+    formacao.adicionarConteudo(conteudo1)
+    formacao.adicionarConteudo(conteudo2)
+    
+    val usuario1 = Usuario("Alice")
+    val usuario2 = Usuario("Bob")
+    
+    formacao.matricular(usuario1)
+    formacao.matricular(usuario2)
+    formacao.matricular(usuario1)  // Tentativa de matricular o mesmo usuário novamente
+    
+    // Você pode adicionar mais testes e interações aqui
 }
